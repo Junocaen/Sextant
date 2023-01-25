@@ -5,6 +5,21 @@
 
 <p align="left"><img src="https://github.com/reactiveui/styleguide/blob/master/logo_sextant/vertical.png?raw=true" alt="Sextant" height="180px"></p>
 
+# Avalonia 11.0.0-preview4 support
+
+Due to https://github.com/AvaloniaUI/Avalonia/wiki/Breaking-Changes#avalonia-package, the project must be rebuild when referencing v11.0.0.0
+
+# Build Sextant.Avalonia dll for net7.0
+
+Build release and refenence both `Sextant.Avalonia.dll` and `Sextant.dll` in your project
+
+## Release build for Linux systems
+
+```bash
+cd Sextant/src/Sextant.Avalonia
+dotnet build --framework=net7.0 --configuration Release
+```
+
 ## A ReactiveUI view model based navigation library
 
 Sextant was born from a fork of [Xamvvm](https://github.com/xamvvm/xamvvm) which is nice and simple MVVM Framework with a good navigation system. The problem is, I just wanted a simple navigation system to use with [ReactiveUI](https://github.com/reactiveui/ReactiveUI) without all the things that come along an MVVM framework. Plus, I wanted to make it more "Reactive Friendly".

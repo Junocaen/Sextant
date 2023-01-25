@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;Xamarin.iOS10;Xamarin.TVOS10;net5.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;netstandard2.0;Xamarin.iOS10;Xamarin.TVOS10;net5.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net461;net472;uap10.0.16299</TargetFrameworks>
     <AssemblyName>Sextant</AssemblyName>
     <RootNamespace>Sextant</RootNamespace>
@@ -13,7 +13,7 @@
     <Compile Remove="Platforms\**\*.cs" />
     <None Include="Platforms\**\*.cs" />
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
-    <PackageReference Include="ReactiveUI" Version="17.*" />
+    <PackageReference Include="ReactiveUI" Version="18.3.*" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
@@ -57,7 +57,7 @@
     <Compile Include="Platforms\netstandard2.0\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net5')) ">
+  <ItemGroup Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETCoreApp'">
     <Compile Include="Platforms\net5\**\*.cs" />
   </ItemGroup>
 
