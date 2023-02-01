@@ -21,7 +21,7 @@ namespace Sextant.Avalonia
     /// <summary>
     /// The <see cref="IView"/> implementation for Avalonia.
     /// </summary>
-    public sealed partial class NavigationView : ContentControl, IStyleable, IView
+    public sealed partial class NavigationView : ContentControl, IStyleable, IView, IDisposable
     {
         private readonly Navigation _modalNavigation = new Navigation();
         private readonly Navigation _pageNavigation = new Navigation();
@@ -31,6 +31,9 @@ namespace Sextant.Avalonia
         /// </summary>
         public NavigationView()
         {
+            // fixes an issue when actual stack and the ViewStackServiceBase.PageSubject went out of sync.
+            // thus the IViewStackService.PageStack was never updated
+            PagePopped = _pageNavigation.PagePopped;
             MainThreadScheduler = RxApp.MainThreadScheduler;
             ViewLocator = ReactiveUI.ViewLocator.Current;
             Content = new Grid
@@ -78,7 +81,7 @@ namespace Sextant.Avalonia
         public IViewLocator ViewLocator { get; set; }
 
         /// <inheritdoc />
-        public IObservable<IViewModel> PagePopped { get; } = Observable.Never<IViewModel>();
+        public IObservable<IViewModel> PagePopped { get; }
 
         /// <inheritdoc />
         public IObservable<Unit> PushPage(
@@ -88,7 +91,7 @@ namespace Sextant.Avalonia
             bool animate = true)
         {
             var view = LocateView(viewModel, contract);
-            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible);
+            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible && animate);
             _pageNavigation.Push(view, resetStack);
             return Observable.Return(Unit.Default);
         }
@@ -96,7 +99,7 @@ namespace Sextant.Avalonia
         /// <inheritdoc />
         public IObservable<Unit> PopPage(bool animate = true)
         {
-            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible);
+            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible && animate);
             _pageNavigation.Pop();
             return Observable.Return(Unit.Default);
         }
@@ -104,7 +107,7 @@ namespace Sextant.Avalonia
         /// <inheritdoc />
         public IObservable<Unit> PopToRootPage(bool animate = true)
         {
-            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible);
+            _pageNavigation.ToggleAnimations(!_modalNavigation.IsVisible && animate);
             _pageNavigation.PopToRoot();
             return Observable.Return(Unit.Default);
         }
@@ -139,6 +142,12 @@ namespace Sextant.Avalonia
 
             view.ViewModel = viewModel;
             return view;
+        }
+
+        public void Dispose()
+        {
+            _modalNavigation.Dispose();
+            _pageNavigation.Dispose();
         }
     }
 }
