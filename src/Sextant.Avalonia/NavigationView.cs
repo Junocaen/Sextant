@@ -130,6 +130,13 @@ namespace Sextant.Avalonia
             return Observable.Return(Unit.Default);
         }
 
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            _modalNavigation.Dispose();
+            _pageNavigation.Dispose();
+        }
+
         private IViewFor LocateView(IViewModel viewModel, string? contract)
         {
             var view = ViewLocator.ResolveView(viewModel, contract);
@@ -142,12 +149,6 @@ namespace Sextant.Avalonia
 
             view.ViewModel = viewModel;
             return view;
-        }
-
-        public void Dispose()
-        {
-            _modalNavigation.Dispose();
-            _pageNavigation.Dispose();
         }
     }
 }

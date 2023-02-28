@@ -34,8 +34,8 @@ namespace Sextant.Avalonia
             private readonly SourceList<IViewFor> _navigationStack = new(); // new ObservableCollection<IViewFor>();
             private readonly IPageTransition? _transition;
             private readonly Subject<IViewModel> _pagePoppedSubject = new();
-            private CompositeDisposable _disposables = new();
             private readonly IFullLogger _logger;
+            private CompositeDisposable _disposables = new();
 
             /// <summary>
             /// Initializes a new instance of the <see cref="Navigation"/> class.
@@ -47,7 +47,7 @@ namespace Sextant.Avalonia
                     .Connect()
                     .OnItemRemoved(view =>
                     {
-                        var viewmodel = (IViewModel)view.ViewModel;
+                        var viewmodel = (IViewModel)view.ViewModel!;
                         _pagePoppedSubject.OnNext(viewmodel);
                         _logger.Debug($"Junocaen log: popped viewmodel {viewmodel.Id}");
                     })
@@ -84,15 +84,17 @@ namespace Sextant.Avalonia
             /// </summary>
             public IObservable<int> CountChanged { get; }
 
-            /// <summary>
-            /// Gets the control responsible for rendering the current view.
-            /// </summary>
-            // TransitioningContentControl is unstable with backward navigation; 
+            // TransitioningContentControl is unstable with backward navigation;
             // it does not always make the TransitioningContentControl.Control visable
             // thus use ContentControl in the meanwhile. Do not use animations anyway :)
             // Github issue. https://github.com/AvaloniaUI/Avalonia/issues/10108#issue-1560581929
             // fix will be published soon.
-            public IContentControl Control { get; } = new ContentControl(); //new TransitioningContentControl();
+            // new TransitioningContentControl();
+
+            /// <summary>
+            /// Gets the control responsible for rendering the current view.
+            /// </summary>
+            public IContentControl Control { get; } = new ContentControl();
 
             /// <summary>
             /// Toggles the animations.
