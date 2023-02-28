@@ -89,12 +89,9 @@ namespace Sextant.Avalonia
             // thus use ContentControl in the meanwhile. Do not use animations anyway :)
             // Github issue. https://github.com/AvaloniaUI/Avalonia/issues/10108#issue-1560581929
             // fix will be published soon.
-            // new TransitioningContentControl();
-
-            /// <summary>
-            /// Gets the control responsible for rendering the current view.
-            /// </summary>
-            public IContentControl Control { get; } = new ContentControl();
+            
+            // the project starts removing interfaces: https://github.com/AvaloniaUI/Avalonia/issues/9495
+            public ContentControl Control { get; } = new ContentControl(); //new TransitioningContentControl();
 
             /// <summary>
             /// Toggles the animations.
