@@ -43,7 +43,7 @@ namespace Sextant.Avalonia
                     new Grid
                     {
                         ZIndex = 1,
-                        Children = 
+                        Children =
                         {
                             _pageNavigation.Control
                         }
