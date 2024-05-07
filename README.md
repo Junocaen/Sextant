@@ -9,7 +9,7 @@
 
 Due to https://github.com/AvaloniaUI/Avalonia/wiki/Breaking-Changes#avalonia-package, the project must be rebuild when referencing v11.0.0.0
 
-# Build Sextant.Avalonia dll for net7.0
+# Build Sextant.Avalonia dll for net8.0
 
 Build release and refenence both `Sextant.Avalonia.dll` and `Sextant.dll` in your project
 
@@ -17,7 +17,7 @@ Build release and refenence both `Sextant.Avalonia.dll` and `Sextant.dll` in you
 
 ```bash
 cd Sextant/src/Sextant.Avalonia
-dotnet build --framework=net7.0 --configuration Release
+dotnet build --framework=net8.0 --configuration Release
 ```
 
 ## A ReactiveUI view model based navigation library
